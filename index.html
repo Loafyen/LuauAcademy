@@ -1,75 +1,142 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luau Academy - Master Luau Programming</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10131d">
+  <title>Luau Academy</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header class="navbar">
-        <div class="logo">Luau Academy</div>
-        <nav>
-            <button class="nav-btn active" data-target="dashboard-view">Dashboard</button>
-            <button class="nav-btn" data-target="curriculum-view">Curriculum</button>
-            <button class="nav-btn" data-target="course-view">Course</button>
-            <button class="nav-btn" data-target="placement-view">Placement Test</button>
-        </nav>
-    </header>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" data-page="dashboard"><span class="brand-mark">L</span><span>Luau<span class="muted">Academy</span></span></a>
+      <div class="side-label">LEARN</div>
+      <button class="nav-link active" data-page="dashboard"><span>⌂</span> Dashboard</button>
+      <button class="nav-link" data-page="placement"><span>◎</span> Placement test</button>
+      <button class="nav-link" data-page="curriculum"><span>▤</span> Curriculum</button>
+      <button class="nav-link" data-page="course" style="display:none;" id="nav-course-link"><span>📖</span> Course</button>
+      <button class="nav-link" data-page="practice"><span>⌘</span> Practice arena</button>
+      <div class="side-bottom">
+        <div class="mini-card"><div class="mini-icon">⚔</div><strong>Your goal</strong><p>Choose a direction. Build your skills.</p></div>
+        <p class="tiny muted">Your progress is saved in this browser.</p>
+      </div>
+    </aside>
 
-    <main class="container">
-        <!-- Dashboard View -->
-        <section id="dashboard-view" class="page-view active">
-            <div class="hero">
-                <h1>Welcome to Luau Academy</h1>
-                <p>Learn Luau programming for Roblox development step-by-step.</p>
-                <button id="go-next-lesson-btn" class="primary-btn">Go to My Next Lesson</button>
-            </div>
+    <main class="main">
+      <header class="topbar">
+        <div><div class="eyebrow">ROBLOX DEVELOPMENT TRACK</div><div class="top-title" id="page-title">Dashboard</div></div>
+        <div class="top-right"><span class="status-dot"></span><span class="tiny">LOCAL PROGRESS SAVED</span></div>
+      </header>
 
-            <div class="goal-selector-card">
-                <h3>Select Your Primary Goal</h3>
-                <div class="goal-buttons">
-                    <button class="goal-btn" data-goal="general">General Luau</button>
-                    <button class="goal-btn" data-goal="gamedev">Roblox Game Development</button>
-                    <button class="goal-btn" data-goal="scripting">Advanced Scripting</button>
-                </div>
+      <section id="dashboard" class="page active">
+        <div class="welcome panel">
+          <div class="welcome-copy">
+            <div class="eyebrow">YOUR TRAINING BEGINS HERE</div>
+            <h1>Build the skills.<br><span class="accent">Build the world.</span></h1>
+            <p>An accelerated, project-focused path from Luau fundamentals to building a full-scale Roblox RPG.</p>
+            <div style="display:flex; gap:12px; flex-wrap:wrap;">
+              <button class="btn primary" id="next-lesson-btn">Go to my next lesson <span>→</span></button>
+              <button class="btn secondary" data-page="placement">Take placement test</button>
             </div>
-        </section>
+          </div>
+          <div class="welcome-art"><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="bracket">{ }</div><div class="art-caption">LUAU / ROBLOX</div></div>
+        </div>
 
-        <!-- Curriculum View -->
-        <section id="curriculum-view" class="page-view">
-            <h2>Luau Curriculum</h2>
-            <p>Select any lesson below or follow your goal-based path.</p>
-            <div id="curriculum-container" class="curriculum-grid">
-                <!-- Dynamically Populated by app.js -->
-            </div>
-        </section>
+        <div class="stats-grid">
+          <div class="stat panel"><span class="stat-label">LESSONS COMPLETED</span><strong id="stat-lessons">0</strong><span class="stat-foot">Keep moving forward</span></div>
+          <div class="stat panel"><span class="stat-label">CURRICULUM PROGRESS</span><strong id="stat-progress">0%</strong><span class="stat-foot">Across all phases</span></div>
+          <div class="stat panel"><span class="stat-label">PLACEMENT STATUS</span><strong id="stat-placement">Not taken</strong><span class="stat-foot">Find your starting point</span></div>
+        </div>
 
-        <!-- Course View -->
-        <section id="course-view" class="page-view">
-            <div class="course-header">
-                <button id="back-to-curriculum-btn" class="secondary-btn">← Back to Curriculum</button>
-                <h2 id="lesson-title">Lesson Title</h2>
-            </div>
-            <div id="lesson-content" class="lesson-content">
-                <!-- Dynamically Populated -->
-            </div>
-            <div class="lesson-actions">
-                <button id="mark-complete-btn" class="primary-btn">Mark as Completed</button>
-            </div>
-        </section>
+        <div class="goal-panel panel">
+          <div class="goal-copy">
+            <div class="eyebrow">PERSONALIZE YOUR COURSE</div>
+            <h2>What do you want to build?</h2>
+            <p>Choose a goal and the recommended lesson order will adapt to what you want to learn. You can change it whenever you like.</p>
+          </div>
+          <div class="goal-controls">
+            <label for="goal-select">YOUR LEARNING GOAL</label>
+            <select id="goal-select">
+              <option value="foundations">Learn Luau from the beginning</option>
+              <option value="gameplay">Build gameplay systems (combat, tools, abilities)</option>
+              <option value="ui">Create Roblox interfaces and menus</option>
+              <option value="multiplayer">Understand multiplayer and client-server scripting</option>
+              <option value="data">Save player data and build progression</option>
+              <option value="fullgame">Build a complete Roblox game</option>
+              <option value="custom">Something else / custom goal</option>
+            </select>
+            <input id="custom-goal" class="goal-custom hidden" maxlength="100" placeholder="Describe what you want to build">
+            <button class="btn primary" id="save-goal">Set my goal</button>
+            <span id="goal-status" class="tiny muted" aria-live="polite"></span>
+          </div>
+        </div>
 
-        <!-- Placement Test View -->
-        <section id="placement-view" class="page-view">
-            <h2>Placement Test</h2>
-            <p>Find out where you should start your learning journey.</p>
-            <div id="placement-container">
-                <p>Answer the following questions to get a recommended starting point.</p>
-                <button id="start-placement-btn" class="primary-btn">Start Test</button>
-            </div>
-        </section>
+        <div class="section-heading"><div><div class="eyebrow">ROADMAP</div><h2>Your learning path</h2></div><button class="text-btn" data-page="curriculum">View curriculum →</button></div>
+        <div id="dashboard-phases" class="phase-grid"></div>
+      </section>
+
+      <section id="placement" class="page">
+        <div class="page-intro"><div class="eyebrow">SKILL ASSESSMENT / 30–45 MIN</div><h1>Placement test</h1><p>This is a diagnostic, not an exam. It helps identify what you already understand so you don't waste time repeating material.</p></div>
+        <div class="test-layout">
+          <div class="panel test-sidebar"><div class="eyebrow">TEST SECTIONS</div><div id="test-section-list"></div><div class="test-note"><strong>Good to know</strong><p>You can submit sections individually. Partial answers are okay. Your results stay saved in this browser.</p></div></div>
+          <div class="panel test-content" id="test-content"></div>
+        </div>
+      </section>
+
+      <section id="curriculum" class="page">
+        <div class="page-intro"><div class="eyebrow">YOUR PERSONAL LEARNING PATH</div><h1>Curriculum</h1><p>Five phases that build on one another. Click any lesson to open it directly.</p></div>
+        <div id="curriculum-list" class="curriculum-list"></div>
+      </section>
+
+      <section id="course" class="page">
+        <div class="page-intro"><div class="eyebrow" id="course-phase-tag">LESSON</div><h1 id="course-title">Lesson Title</h1><p id="course-desc">Lesson description.</p></div>
+        <div class="panel" style="margin-bottom: 24px; padding: 25px;">
+          <h2>Lesson Overview</h2>
+          <div id="course-content-body" style="margin-top: 12px; font-size: 14px; line-height: 1.7; color: var(--muted);"></div>
+        </div>
+        <div class="panel practice-panel" style="max-width: 100%;">
+          <div class="challenge-top"><span class="tag">EXERCISE</span><span class="tiny muted">KNOWLEDGE CHECK</span></div>
+          <h2 id="exercise-title">Exercise Title</h2>
+          <p id="exercise-prompt">Prompt text</p>
+          <pre class="code-sample"><code id="exercise-code-sample">-- sample</code></pre>
+          <label for="course-answer">Your Luau solution</label>
+          <textarea id="course-answer" spellcheck="false" placeholder="Write solution here..."></textarea>
+          <div class="button-row">
+            <button class="btn primary" id="course-check-btn">Check my approach</button>
+            <button class="btn secondary" id="course-reset-btn">Reset</button>
+            <button class="btn primary" id="mark-complete-btn" style="margin-left:auto; background:var(--accent2); color:#171326;">Mark Lesson Complete ✓</button>
+          </div>
+          <div id="course-feedback" class="feedback hidden"></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-top:24px;">
+          <button class="btn secondary" id="prev-lesson-btn">← Previous Lesson</button>
+          <button class="btn primary" id="next-course-lesson-btn">Next Lesson →</button>
+        </div>
+      </section>
+
+      <section id="practice" class="page">
+        <div class="page-intro"><div class="eyebrow">SANDBOX / KNOWLEDGE CHECK</div><h1>Practice arena</h1><p>Try a small Luau challenge. Write your answer, check the expected behavior, and read the explanation.</p></div>
+        <div class="panel practice-panel">
+          <div class="challenge-top"><span class="tag">CHALLENGE 01</span><span class="tiny muted">TABLES · FUNCTIONS</span></div>
+          <h2>Inventory total</h2>
+          <p>You have an inventory table. Write a function that adds up the quantity of every item and returns the total.</p>
+          <pre class="code-sample"><code>local inventory = {
+    sword = 1,
+    potion = 5,
+    apple = 3
+}</code></pre>
+          <label for="practice-answer">Your Luau solution</label>
+          <textarea id="practice-answer" spellcheck="false" placeholder="local function countItems(items)\n    ...\nend"></textarea>
+          <div class="button-row"><button class="btn primary" id="practice-check">Check my approach</button><button class="btn secondary" id="practice-reset">Reset</button></div>
+          <div id="practice-feedback" class="feedback hidden"></div>
+          <p class="tiny muted">This first version checks for key concepts and gives guidance; it does not execute Luau code in your browser.</p>
+        </div>
+      </section>
+
+      <footer class="footer"><span> LUAU ACADEMY <span class="muted">/ INDEPENDENT STUDY PROJECT</span></span><span class="muted">Built for learning, one system at a time.</span></footer>
     </main>
-
-    <script src="app.js"></script>
+  </div>
+  <script src="app.js"></script>
 </body>
 </html>
