@@ -17,7 +17,7 @@
       <button class="nav-link" data-page="curriculum"><span>▤</span> Curriculum</button>
       <button class="nav-link" data-page="practice"><span>⌘</span> Practice arena</button>
       <div class="side-bottom">
-        <div class="mini-card"><div class="mini-icon">⚔</div><strong>Project Moon</strong><p>Train your skills. Build something massive.</p></div>
+        <div class="mini-card"><div class="mini-icon">⚔</div><strong>Your goal</strong><p>Choose a direction. Build your skills.</p></div>
         <p class="tiny muted">Your progress is saved in this browser.</p>
       </div>
     </aside>
@@ -45,6 +45,30 @@
           <div class="stat panel"><span class="stat-label">PLACEMENT STATUS</span><strong id="stat-placement">Not taken</strong><span class="stat-foot">Find your starting point</span></div>
         </div>
 
+
+        <div class="goal-panel panel">
+          <div class="goal-copy">
+            <div class="eyebrow">PERSONALIZE YOUR COURSE</div>
+            <h2>What do you want to build?</h2>
+            <p>Choose a goal and the recommended lesson order will adapt to what you want to learn. You can change it whenever you like.</p>
+          </div>
+          <div class="goal-controls">
+            <label for="goal-select">YOUR LEARNING GOAL</label>
+            <select id="goal-select">
+              <option value="foundations">Learn Luau from the beginning</option>
+              <option value="gameplay">Build gameplay systems (combat, tools, abilities)</option>
+              <option value="ui">Create Roblox interfaces and menus</option>
+              <option value="multiplayer">Understand multiplayer and client-server scripting</option>
+              <option value="data">Save player data and build progression</option>
+              <option value="fullgame">Build a complete Roblox game</option>
+              <option value="custom">Something else / custom goal</option>
+            </select>
+            <input id="custom-goal" class="goal-custom hidden" maxlength="100" placeholder="Describe what you want to build">
+            <button class="btn primary" id="save-goal">Set my goal</button>
+            <span id="goal-status" class="tiny muted" aria-live="polite"></span>
+          </div>
+        </div>
+
         <div class="section-heading"><div><div class="eyebrow">ROADMAP</div><h2>Your learning path</h2></div><button class="text-btn" data-page="curriculum">View curriculum →</button></div>
         <div id="dashboard-phases" class="phase-grid"></div>
       </section>
@@ -58,7 +82,7 @@
       </section>
 
       <section id="curriculum" class="page">
-        <div class="page-intro"><div class="eyebrow">THE ROAD TO PROJECT MOON</div><h1>Curriculum</h1><p>Five phases that build on one another. Lessons will use a practice-heavy format: roughly 20% explanation and 80% doing.</p></div>
+        <div class="page-intro"><div class="eyebrow">YOUR PERSONAL LEARNING PATH</div><h1>Curriculum</h1><p>Five phases that build on one another. Lessons will use a practice-heavy format: roughly 20% explanation and 80% doing.</p></div>
         <div id="curriculum-list" class="curriculum-list"></div>
       </section>
 

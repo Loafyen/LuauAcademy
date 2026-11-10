@@ -3,8 +3,18 @@ const phases = [
   ["Roblox Engine","Instances, properties, services, players, characters, Humanoids, connections and task scheduling.","Working inside Studio"],
   ["Client & Server","RemoteEvents, RemoteFunctions, replication, server authority, input and exploit prevention.","Secure multiplayer systems"],
   ["Game Architecture","Modules, player data, DataStoreService, inventory systems, state management, debugging and performance.","Systems that scale"],
-  ["Project Moon Development","Combine everything into combat, progression, quests, world systems and the foundations of an open-world RPG.","Build the actual game"]
+  ["Build Your Own Game","Combine everything into the systems your game needs, from gameplay and UI to saving and multiplayer.","Apply your skills"]
 ];
+
+const goalPlans = {
+ foundations: {label:"Learn Luau from the beginning", order:[0,1,2,3,4], focus:"Start with the language, then learn how Luau connects to Roblox."},
+ gameplay: {label:"Gameplay systems", order:[0,1,3,2,4], focus:"Prioritize functions, tables, events, character systems, and secure gameplay logic."},
+ ui: {label:"Roblox interfaces and menus", order:[0,1,2,3,4], focus:"Build fundamentals first, then focus on client-side scripting, input, UI behavior, and reusable modules."},
+ multiplayer: {label:"Multiplayer and client-server scripting", order:[0,1,2,3,4], focus:"Move client-server concepts earlier so you can understand replication and secure remote communication."},
+ data: {label:"Player data and progression", order:[0,1,3,2,4], focus:"Emphasize tables, modules, DataStoreService, saving, loading, and reliable progression systems."},
+ fullgame: {label:"Build a complete Roblox game", order:[0,1,2,3,4], focus:"Follow the full course from fundamentals through architecture and putting systems together."},
+ custom: {label:"Custom learning goal", order:[0,1,2,3,4], focus:"Your custom goal is saved. The general course remains the recommended foundation."}
+};
 const sections = [
  {name:"Fundamentals",desc:"Check your core Luau knowledge.",questions:[
   {q:"In Python, `None` is closest to which Luau value?",opts:["false","nil","0","empty"],a:1,why:"`nil` represents the absence of a value. It is the closest equivalent to Python's `None`."},
@@ -27,9 +37,9 @@ const sections = [
   {q:"What is a RemoteEvent commonly used for?",opts:["Saving data permanently","Communication between client and server","Creating 3D parts","Changing a script's type"],a:1,why:"RemoteEvents allow one side to send a message to the other across the client-server boundary."},
   {q:"Which service is commonly used for persistent player data?",opts:["Lighting","TweenService","DataStoreService","RunService"],a:2,why:"DataStoreService provides persistent data storage, subject to Roblox's data store rules and limits."}
  ]},
- {name:"Fixer combat challenge",desc:"A small practical system-design challenge.",questions:[
+ {name:"Practical coding challenge",desc:"Apply your fundamentals to a small practical coding problem.",questions:[
   {q:"Write `takeDamage(character, amount)` and `heal(character, amount)`. Health should never go below 0 or above maxHealth. Explain where this logic should run.",code:true,key:"takeDamage, heal, math.max, math.min, maxHealth",why:"Clamp health with `math.max(0, ...)` and `math.min(character.maxHealth, ...)`. Important combat validation belongs on the server."},
-  {q:"If a Fixer has 100 health, takes 85 damage, then receives 10 healing, what is their health?",opts:["15","25","35","95"],a:1,why:"100 - 85 = 15, then 15 + 10 = 25."}
+  {q:"If a A character has 100 health, takes 85 damage, then receives 10 healing, what is their health?",opts:["15","25","35","95"],a:1,why:"100 - 85 = 15, then 15 + 10 = 25."}
  ]}
 ];
 const state = JSON.parse(localStorage.getItem("luauAcademy") || '{"completed":[],"placement":null,"answers":{}}');
@@ -49,10 +59,18 @@ function renderStats(){
  document.getElementById("stat-placement").textContent=state.placement===null?"Not taken":state.placement+"%";
 }
 function renderPhases(){
- const html=phases.map((p,i)=>`<article class="phase-card"><div class="phase-num">0${i+1} / PHASE</div><h3>${p[0]}</h3><p>${p[1]}</p></article>`).join("");
- document.getElementById("dashboard-phases").innerHTML=html;
- document.getElementById("curriculum-list").innerHTML=phases.map((p,i)=>`<article class="panel phase-row"><div class="phase-index">0${i+1}</div><div><h3>${p[0]}</h3><p>${p[1]}</p></div><div class="phase-meta">${p[2]}</div></article>`).join("");
+ const goal = state.goal || "foundations";
+ const plan = goalPlans[goal] || goalPlans.foundations;
+ const ordered = plan.order.map(i=>({phase:phases[i],index:i}));
+ document.getElementById("dashboard-phases").innerHTML=ordered.map(({phase:p,index:i},position)=>`<article class="phase-card"><div class="phase-num">0${position+1} / ${position===0?"START HERE":"PHASE"}</div><h3>${p[0]}</h3><p>${p[1]}</p></article>`).join("");
+ document.getElementById("curriculum-list").innerHTML=`<div class="goal-explanation panel"><div class="eyebrow">RECOMMENDED ORDER FOR YOUR GOAL</div><strong>${plan.label}</strong><p>${plan.focus}</p></div>`+ordered.map(({phase:p,index:i},position)=>`<article class="panel phase-row"><div class="phase-index">0${position+1}</div><div><h3>${p[0]}</h3><p>${p[1]}</p></div><div class="phase-meta">${position===0?"START HERE":p[2]}</div></article>`).join("");
+ const select=document.getElementById("goal-select");
+ const custom=document.getElementById("custom-goal");
+ if(select){select.value=goal;custom.value=state.customGoal||"";custom.classList.toggle("hidden",goal!=="custom");}
+ const status=document.getElementById("goal-status");
+ if(status)status.textContent=goal==="custom"&&state.customGoal?`Saved: ${state.customGoal}`:`Current: ${plan.label}`;
 }
+
 function renderSectionList(){
  document.getElementById("test-section-list").innerHTML=sections.map((s,i)=>`<button class="test-section ${i===currentSection?"active":""}" data-section="${i}"><span class="num">0${i+1}</span>${s.name}</button>`).join("");
  document.querySelectorAll("[data-section]").forEach(b=>b.addEventListener("click",()=>{currentSection=Number(b.dataset.section);renderTest();}));
@@ -100,4 +118,18 @@ document.getElementById("practice-check").addEventListener("click",()=>{
  fb.innerHTML=missing.length?`<strong>You're on the right track. Check these points:</strong><ul>${missing.map(x=>`<li>${x[1]}</li>`).join("")}</ul>`:"<strong>Nice work!</strong> Your answer includes the main building blocks. A complete solution could use `for _, amount in pairs(items) do total += amount end` and then `return total`. Remember: this page reviews concepts; it doesn't execute Luau.";
 });
 document.getElementById("practice-reset").addEventListener("click",()=>{document.getElementById("practice-answer").value="";document.getElementById("practice-feedback").classList.add("hidden");});
+
+const goalSelect=document.getElementById("goal-select");
+const customGoal=document.getElementById("custom-goal");
+goalSelect.addEventListener("change",()=>customGoal.classList.toggle("hidden",goalSelect.value!=="custom"));
+document.getElementById("save-goal").addEventListener("click",()=>{
+ state.goal=goalSelect.value;
+ if(state.goal==="custom"){
+   state.customGoal=customGoal.value.trim();
+   if(!state.customGoal){document.getElementById("goal-status").textContent="Add a short description of your goal first.";return;}
+ }
+ save();renderPhases();
+ document.getElementById("goal-status").textContent="Goal saved — your learning path has been updated.";
+});
+
 renderStats();renderPhases();renderTest();

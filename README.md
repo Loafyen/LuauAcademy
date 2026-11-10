@@ -3,11 +3,11 @@
 A static, interactive Luau learning dashboard designed for GitHub Pages.
 
 ## Features
-- Dashboard and five-phase learning roadmap
+- Dashboard and five-phase learning roadmap with goal-based ordering
 - Five-section placement assessment
 - Section-by-section submission and feedback
 - Practice arena with guided code review
-- Progress and answers saved with browser `localStorage`
+- Progress, placement answers, and selected learning goal saved with browser `localStorage`
 
 ## Publish with GitHub Pages
 1. Create a new repository on GitHub (for example, `luau-academy`).
@@ -22,3 +22,6 @@ A static, interactive Luau learning dashboard designed for GitHub Pages.
 - Progress is stored in the visitor's browser. It does not sync between devices or browsers.
 - The placement test's code questions use simple keyword checks, not a real Luau interpreter.
 - Google Fonts are loaded from an external provider; system fallbacks are included.
+
+## Goal-based learning
+Choose a built-in goal (fundamentals, gameplay, UI, multiplayer, data/progression, or full game) from the dashboard. The site reorders the recommended phase sequence and explains the focus. You can also save a custom goal; custom goals retain the general recommended course order in this starter version.
