@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Luau Academy</title>
+  <meta name="description" content="Learn Luau programming for Roblox development, one lesson at a time.">
+  <meta name="color-scheme" content="dark light">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M21 3a13 13 0 1 0 8 22 10 10 0 0 1-8-22z' fill='%235ecfc1'/%3E%3C/svg%3E">
+
+  <!-- Apply the saved theme before first paint so the page never flashes the wrong colors. -->
+  <script>
+    (function () {
+      try {
+        var s = JSON.parse(localStorage.getItem('luauAcademy:v1:settings') || '{}');
+        var t = s.theme || 'dark';
+        if (t === 'system') t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        document.documentElement.dataset.theme = t === 'light' ? 'light' : 'dark';
+        if (s.reduceMotion) document.documentElement.dataset.motion = 'reduced';
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+  <a class="skip-link" href="#main" id="skip-link">Skip to content</a>
+
+  <div class="app" id="app">
+    <aside class="sidebar" id="sidebar" aria-label="Primary">
+      <a class="brand" href="#/dashboard" aria-label="Luau Academy, go to Dashboard">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <path d="M21 3a13 13 0 1 0 8 22 10 10 0 0 1-8-22z" fill="currentColor"/>
+        </svg>
+        <span class="brand-name">Luau Academy</span>
+      </a>
+
+      <nav aria-label="Main sections">
+        <ul class="nav-list" id="nav-list"></ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button type="button" class="nav-link nav-button" id="theme-toggle"></button>
+      </div>
+    </aside>
+
+    <div class="scrim" id="scrim" hidden></div>
+
+    <div class="content" id="content">
+      <header class="topbar">
+        <button type="button" class="icon-button" id="menu-button" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation"></button>
+        <a class="topbar-brand" href="#/dashboard">Luau Academy</a>
+      </header>
+
+      <main id="main" tabindex="-1">
+        <div id="view-root" class="view"></div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast-region" id="toast-region" role="status" aria-live="polite"></div>
+
+  <noscript>
+    <p class="noscript">Luau Academy needs JavaScript to run. Please turn it on in your browser and reload the page.</p>
+  </noscript>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
