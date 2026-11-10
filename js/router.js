@@ -10,15 +10,19 @@ let hasRendered = false;
 
 /**
  * A view looks like:
- * { id, title, description, icon, tabs: [{ id, label, render(panelElement, context) }] }
+ * { id, title, description, icon, tabs: [{ id, label, render(panelElement, context) }], resolveParam? }
+ * A view may define resolveParam(param) to fill in or correct the third URL segment
+ * (My Course uses it so "#/course" becomes "#/course/lesson/<the lesson to resume>").
  */
 export function registerViews(list) {
   list.forEach((view) => views.set(view.id, view));
 }
 
 function parseHash() {
-  const [viewId = 'dashboard', tabId = null] = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
-  return { viewId: viewId || 'dashboard', tabId };
+  const [viewId = 'dashboard', tabId = null, rawParam = null] = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
+  let param = rawParam;
+  try { param = rawParam ? decodeURIComponent(rawParam) : null; } catch (_) { /* keep the raw value */ }
+  return { viewId: viewId || 'dashboard', tabId, param };
 }
 
 function headerHtml(view, activeTabId) {
@@ -54,10 +58,16 @@ const notFoundView = {
 };
 
 function render() {
-  const { viewId, tabId } = parseHash();
+  const { viewId, tabId, param: rawParam } = parseHash();
   const view = views.get(viewId) ?? notFoundView;
   const tab = view.tabs.find((t) => t.id === tabId) ?? view.tabs[0];
   const viewChanged = current.viewId !== view.id;
+
+  let param = rawParam;
+  if (view.resolveParam) {
+    param = view.resolveParam(rawParam);
+    if (param !== rawParam) history.replaceState(null, '', route(view.id, tab.id, param));
+  }
 
   if (viewChanged) {
     root.innerHTML = headerHtml(view, tab.id);
@@ -69,10 +79,15 @@ function render() {
   }
   current = { viewId: view.id };
 
+  // Keep every sub-navigation link pointing at the same item (for example the same lesson).
+  if (view.resolveParam) {
+    root.querySelectorAll('.subnav-link').forEach((link) => link.setAttribute('href', route(view.id, link.dataset.tab, param)));
+  }
+
   const panel = root.querySelector('#view-panel');
   panel.innerHTML = '';
   try {
-    tab.render(panel, { view, tab });
+    tab.render(panel, { view, tab, param });
   } catch (error) {
     console.error(`Could not render ${view.id}/${tab.id}`, error);
     panel.innerHTML = emptyState({

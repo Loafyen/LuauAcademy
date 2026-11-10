@@ -7,9 +7,9 @@ export function esc(value) {
   return String(value ?? '').replace(/[&<>"']/g, (ch) => ESCAPES[ch]);
 }
 
-/** Build a hash route like "#/curriculum/beginner". */
-export function route(viewId, tabId) {
-  return `#/${viewId}${tabId ? `/${tabId}` : ''}`;
+/** Build a hash route like "#/curriculum/all" or "#/course/lesson/foundations-variables". */
+export function route(viewId, tabId, param) {
+  return `#/${viewId}${tabId ? `/${tabId}` : ''}${tabId && param ? `/${encodeURIComponent(param)}` : ''}`;
 }
 
 /** Event delegation: run handler when an event target matches selector inside root. */

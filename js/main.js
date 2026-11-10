@@ -2,6 +2,7 @@
 import { subscribe } from './state.js';
 import { initTheme, toggleTheme } from './theme.js';
 import { registerViews, startRouter } from './router.js';
+import { validateCurriculum } from './data/validate.js';
 import { initShell, setActiveNav, closeDrawer, updateThemeButton } from './ui/shell.js';
 
 import dashboard from './views/dashboard.js';
@@ -13,6 +14,9 @@ import settings from './views/settings.js';
 
 // Order here is the order of the sidebar.
 const views = [dashboard, course, curriculum, placement, practice, settings];
+
+const curriculumProblems = validateCurriculum();
+if (curriculumProblems.length) console.error('Curriculum data problems:\n- ' + curriculumProblems.join('\n- '));
 
 registerViews(views);
 initTheme();

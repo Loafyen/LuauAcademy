@@ -1,15 +1,14 @@
-// Derived progress numbers used by the dashboard (and later, other sections).
+// Numbers for the dashboard, derived from the curriculum and saved progress.
 import { getState } from './state.js';
-import { totalLessons } from './data/curriculum.js';
+import { overallStats } from './lessons.js';
 
 export function progressSummary() {
   const progress = getState('progress');
-  const total = totalLessons();
-  const done = progress.completedLessons.length;
+  const { total, done, percent } = overallStats();
   return {
     total,
     done,
-    percent: total ? Math.min(100, Math.round((done / total) * 100)) : 0,
+    percent,
     practiceSolved: progress.practiceSolved,
     placementResult: progress.placementResult,
     currentLessonId: progress.currentLessonId,
