@@ -7,6 +7,7 @@ let root = null;
 let onRoute = () => {};
 let current = { viewId: null };
 let hasRendered = false;
+let renderCounter = 0;
 
 /**
  * A view looks like:
@@ -86,16 +87,25 @@ function render() {
 
   const panel = root.querySelector('#view-panel');
   panel.innerHTML = '';
-  try {
-    tab.render(panel, { view, tab, param });
-  } catch (error) {
+  const renderId = String(++renderCounter);
+  panel.dataset.renderId = renderId;
+  const isCurrent = () => panel.dataset.renderId === renderId;
+  const showFailure = (error) => {
     console.error(`Could not render ${view.id}/${tab.id}`, error);
+    if (!isCurrent()) return;
     panel.innerHTML = emptyState({
       iconName: 'info',
       title: 'Something went wrong',
       body: 'This page could not be displayed. Try reloading, or go back to the Dashboard.',
       actions: [{ label: 'Go to Dashboard', href: route('dashboard'), variant: 'primary' }],
     });
+  };
+  try {
+    // A renderer may be async (My Course loads lesson text on demand). isCurrent() lets it stop if you navigate away.
+    const result = tab.render(panel, { view, tab, param, isCurrent });
+    if (result && typeof result.catch === 'function') result.catch(showFailure);
+  } catch (error) {
+    showFailure(error);
   }
 
   document.title = `${view.title}: ${tab.label} | Luau Academy`;

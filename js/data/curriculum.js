@@ -175,8 +175,8 @@ SECTION_SPECS.forEach((spec, sectionIndex) => {
       prerequisites: Object.freeze(requires.map((slug) => slugToId.get(slug) ?? `missing:${slug}`)),
       // Default completion status. The real status comes from saved progress (see js/lessons.js).
       status: 'not-started',
-      // Placeholder until the educational content is written in a later stage.
-      content: Object.freeze({ state: 'placeholder', objectives: [], body: [] }),
+      // The lesson text, questions and exercises live in js/content/<section id>.js, keyed by lesson id.
+      content: Object.freeze({ state: 'ready', module: spec.id }),
     });
     section.lessons.push(lesson);
     lessons.push(lesson);

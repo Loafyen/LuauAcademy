@@ -62,6 +62,15 @@
   --moon-lit: #f1e4bd;
   --moon-dark: #263250;
   --moon-glow: rgba(241, 228, 189, 0.14);
+  --info: #9db4ff;
+  --info-soft: rgba(157, 180, 255, 0.12);
+  --gold: #f1e4bd;
+  --gold-soft: rgba(241, 228, 189, 0.1);
+  --code-kw: #c7a4ff;
+  --code-fn: #7fd0ff;
+  --code-str: #a6e3a1;
+  --code-num: #f1c27b;
+  --code-com: #7d89a6;
   --scrim: rgba(5, 8, 16, 0.62);
   --shadow-overlay: 0 20px 60px rgba(0, 0, 0, 0.45);
 }
@@ -88,6 +97,15 @@
   --moon-lit: #e9d8a0;
   --moon-dark: #cfd7e8;
   --moon-glow: rgba(190, 160, 70, 0.16);
+  --info: #3d52b8;
+  --info-soft: rgba(61, 82, 184, 0.09);
+  --gold: #8a6a12;
+  --gold-soft: rgba(190, 150, 40, 0.12);
+  --code-kw: #7a3fc4;
+  --code-fn: #0b66a8;
+  --code-str: #2b7a33;
+  --code-num: #a85a00;
+  --code-com: #66718c;
   --scrim: rgba(22, 32, 54, 0.45);
   --shadow-overlay: 0 20px 60px rgba(22, 32, 54, 0.22);
 }

@@ -96,7 +96,7 @@ function renderProgress(panel) {
         <div class="setting-row">
           <div class="setting-text">
             <h3>Reset progress</h3>
-            <p>Clears completed lessons, practice results and your placement result. Your settings, name and notes are kept.</p>
+            <p>Clears completed lessons, your saved exercise answers, practice results and your placement result. Your settings, name and notes are kept.</p>
           </div>
           <button type="button" class="btn btn-danger" id="reset-progress">Reset progress</button>
         </div>
@@ -106,7 +106,7 @@ function renderProgress(panel) {
   panel.querySelector('#reset-progress').addEventListener('click', async () => {
     const confirmed = await confirmDialog({
       title: 'Reset all progress?',
-      message: 'This clears your lesson, practice and placement progress on this device. It cannot be undone.',
+      message: 'This clears your lesson progress, saved exercise answers, practice and placement progress on this device. It cannot be undone.',
       confirmLabel: 'Reset progress',
       danger: true,
     });

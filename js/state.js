@@ -7,6 +7,7 @@ export const DEFAULTS = {
   profile: { name: '' },
   progress: { completedLessons: [], currentLessonId: null, practiceSolved: 0, placementResult: null },
   notes: {},
+  work: {}, // per lesson: finished activities, saved code, attempts
 };
 
 const clone = (value) => JSON.parse(JSON.stringify(value));
@@ -36,9 +37,11 @@ export function subscribe(fn) {
   return () => listeners.delete(fn);
 }
 
-/** Reset lesson, practice and placement progress. Settings, profile and notes are kept. */
+/** Reset lesson, practice and placement progress and lesson answers. Settings, profile and notes are kept. */
 export function resetProgress() {
   state.progress = clone(DEFAULTS.progress);
+  state.work = {};
   storage.set('progress', state.progress);
+  storage.set('work', state.work);
   listeners.forEach((fn) => fn('progress', state.progress));
 }

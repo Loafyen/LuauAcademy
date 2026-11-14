@@ -28,7 +28,7 @@ export function validateCurriculum() {
     if (!validDifficulties.has(lesson.difficulty)) problems.push(`${where}: unknown difficulty "${lesson.difficulty}".`);
     if (!Number.isInteger(lesson.minutes) || lesson.minutes <= 0) problems.push(`${where}: estimated time must be a positive whole number.`);
     if (!sectionsById.has(lesson.sectionId)) problems.push(`${where}: unknown section "${lesson.sectionId}".`);
-    if (!lesson.content || lesson.content.state !== 'placeholder') problems.push(`${where}: missing content placeholder.`);
+    if (!lesson.content || lesson.content.state !== 'ready' || lesson.content.module !== lesson.sectionId) problems.push(`${where}: content must be marked ready and point at its section file.`);
     if (lesson.status !== 'not-started') problems.push(`${where}: default status must be "not-started".`);
     if (lesson.id !== `${lesson.sectionId}-${lesson.slug}`) problems.push(`${where}: id does not match section and slug.`);
     if (lesson.order !== index) problems.push(`${where}: order value is out of step.`);
